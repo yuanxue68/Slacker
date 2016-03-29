@@ -12,9 +12,8 @@ Dotenv.load
 
 post '/reddit' do
   reddit = Reddit.new
-  reddit.request_content(params["text"]) 
-  reddit.parse_content
-  reddit.response.join("\r\n")
+  reddit.fetch_content(params["text"]) 
+  reddit.response
 end
 
 post '/stack' do

@@ -6,11 +6,10 @@ class Reddit
     @app_id = ENV["REDDIT_APP_ID"]
     @app_secret = ENV["REDDIT_APP_SECRET"]
     @token = nil
-    @posts = []
-    @response = []
+    @response = ''
   end
 
-  def request_content(sub_reddit, limit = 10)
+  def fetch_content(sub_reddit, limit = 10)
     begin
       get_token
       if @token
@@ -24,7 +23,7 @@ class Reddit
             Authorization: "Bearer #{@token}"
           }
         )
-        @posts = JSON.parse(response)["data"]["children"]
+        parse_content (JSON.parse(response)["data"]["children"])
       end
     rescue => e
       p e.response
@@ -32,11 +31,13 @@ class Reddit
     end
   end
 
-  def parse_content
-    return  @response = ["No Post Found"] if !@posts || @posts.size < 1
-    @posts.each do |post|
-      @response.push "|reddit #{post["data"]["subreddit"]}| <https://reddit.com#{post["data"]["permalink"]}|#{post["data"]["title"]}>"
+  def parse_content(posts)
+    return  @response = "No Post Found" if !posts || posts.size < 1
+    response_list = []
+    posts.each do |post|
+      response_list.push "|reddit #{post["data"]["subreddit"]}| <https://reddit.com#{post["data"]["permalink"]}|#{post["data"]["title"]}>"
     end
+    @response = response_list.join("\r\n")
   end
 
   private
