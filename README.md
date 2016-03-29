@@ -17,7 +17,9 @@ A Slack custom intergration that allows you to quickly check posts on
 ```
 
 ### New York Times
+```
 /news
+```
 
 ## How to set it up locally
 Create a .env file with the following pairs
