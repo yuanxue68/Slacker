@@ -1,5 +1,5 @@
 class Reddit
-  attr_accessor :response
+  attr_reader :response
   def initialize
     @username = ENV["REDDIT_USERNAME"]
     @password = ENV["REDDIT_PASSWORD"]
@@ -27,7 +27,7 @@ class Reddit
       end
     rescue => e
       p e.response
-      "An Error has occured whie getting reddit posts"
+      @response = "An error has occured whie getting reddit posts"
     end
   end
 
@@ -58,7 +58,7 @@ class Reddit
       @token = JSON.parse(response)["access_token"]
     rescue => e
       p e.response
-      "An Error has occured whie getting reddit posts"
+      @response = "An error has occured whie getting reddit posts"
     end
   end
 end
