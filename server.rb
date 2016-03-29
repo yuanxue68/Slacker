@@ -17,9 +17,15 @@ post '/reddit' do
 end
 
 post '/stack' do
+  stack = StackOverflow.new
+  stack.fetch_content(params["text"])
+  stack.response
 end
 
 post '/news' do
+  nytimes = NewYorkTimes.new
+  nytimes.fetch_content
+  nytimes.response
 end
 
 post '/hacker' do
