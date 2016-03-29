@@ -1,8 +1,8 @@
 # Slacker
-A Slack custom intergration that allows you to quickly check posts on
--Stack Overflow
--Reddit
--New York Times
+A Slack custom intergration that allows you to quickly check posts on  
+-Stack Overflow  
+-Reddit  
+-New York Times  
 
 ![alt tag](http://g.recordit.co/POXxfmfd33.gif)
 
