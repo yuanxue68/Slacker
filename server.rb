@@ -1,22 +1,27 @@
 require 'sinatra'
 require 'dotenv'
-require 'rest-client'
 require './lib/reddit'
 require './lib/hackernews'
 require './lib/new_york_times'
 require './lib/stackoverflow'
+require 'rest-client'
+require 'pry'
 
 Dotenv.load
+#stackoverflow = StackOverFlow.new
 
-get '/reddit' do
-
+post '/reddit' do
+  reddit = Reddit.new
+  reddit.request_content(params["text"]) 
+  reddit.parse_content
+  reddit.response.join("\r\n")
 end
 
-get '/stack' do
+post '/stack' do
 end
 
-get '/news' do
+post '/news' do
 end
 
-get '/hacker' do
+post '/hacker' do
 end
