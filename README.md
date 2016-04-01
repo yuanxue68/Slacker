@@ -18,7 +18,7 @@ A Slack custom intergration that allows you to quickly check posts on
 
 ### New York Times
 ```
-/news
+/news [section]
 ```
 
 ## How to set it up locally
