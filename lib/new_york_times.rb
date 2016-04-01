@@ -4,21 +4,22 @@ class NewYorkTimes
     @response=""
   end
 
-  def fetch_content
+  def fetch_content(section)
+    return @response = "#{Constants::NewYorkTimes::UNRECOGNIZED_SECTION }" unless Constants::NewYorkTimes::AVAILABLE_SECTIONS.include? section
     begin
-      request_url = "http://api.nytimes.com/svc/topstories/v1/home.json?api-key=#{ENV['NEW_YORK_TIMES_KEY']}"
+      request_url = format(Constants::NewYorkTimes::API_URL, section, ENV['NEW_YORK_TIMES_KEY'])
       response = RestClient.get request_url
       parse_content(JSON.parse(response)["results"])
-    rescue
-      @response = "An error has occured while getting New York Times posts" 
+    rescue => e
+      @response = "#{Constants::NewYorkTimes::GENERIC_ERROR}" 
     end
   end
 
   def parse_content(posts)
-    return @response = "No Post Found" if !posts || posts.size < 1
+    return @response = "#{Constants::NO_POSTFOUND}" if !posts || posts.size < 1
     response_list = []
     posts.each do |post|
-      response_list.push("|New York Times| <#{post["url"]}|#{post["title"]}>")
+      response_list.push("|New York Times #{post["section"]}| <#{post["url"]}|#{post["title"]}>")
     end
     @response = response_list.join("\n\r")
   end

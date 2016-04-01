@@ -18,7 +18,7 @@ class Reddit
           params: {
             limit: limit
           },
-          url: "https://oauth.reddit.com/r/#{sub_reddit}",
+          url: "#{Constants::Reddit::API_URL}#{sub_reddit}",
           headers:{
             Authorization: "Bearer #{@token}"
           }
@@ -27,15 +27,15 @@ class Reddit
       end
     rescue => e
       p e.response
-      @response = "An error has occured whie getting reddit posts"
+      @response = "#{Constants::Reddit::GENERIC_ERROR}"
     end
   end
 
   def parse_content(posts)
-    return  @response = "No Post Found" if !posts || posts.size < 1
+    return  @response = "#{Constants::NO_POSTFOUND}" if !posts || posts.size < 1
     response_list = []
     posts.each do |post|
-      response_list.push "|reddit #{post["data"]["subreddit"]}| <https://reddit.com#{post["data"]["permalink"]}|#{post["data"]["title"]}>"
+      response_list.push "|reddit #{post["data"]["subreddit"]}| <#{Constants::Reddit::BASE_URL}#{post["data"]["permalink"]}|#{post["data"]["title"]}>"
     end
     @response = response_list.join("\r\n")
   end

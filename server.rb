@@ -1,14 +1,13 @@
 require 'sinatra'
 require 'dotenv'
 require './lib/reddit'
-require './lib/hackernews'
 require './lib/new_york_times'
 require './lib/stackoverflow'
+require './lib/constants'
 require 'rest-client'
 require 'pry'
 
 Dotenv.load
-#stackoverflow = StackOverFlow.new
 
 post '/reddit' do
   reddit = Reddit.new
@@ -24,9 +23,6 @@ end
 
 post '/news' do
   nytimes = NewYorkTimes.new
-  nytimes.fetch_content
+  nytimes.fetch_content(params["text"])
   nytimes.response
-end
-
-post '/hacker' do
 end
