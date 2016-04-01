@@ -5,18 +5,18 @@ class NewYorkTimes
   end
 
   def fetch_content(section)
-    return @response = "#{Constants::NewYorkTimes::UNRECOGNIZED_SECTION }" unless Constants::NewYorkTimes::AVAILABLE_SECTIONS.include? section
+    return @response = Constants::NewYorkTimes::UNRECOGNIZED_SECTION unless Constants::NewYorkTimes::AVAILABLE_SECTIONS.include? section
     begin
       request_url = format(Constants::NewYorkTimes::API_URL, section, ENV['NEW_YORK_TIMES_KEY'])
       response = RestClient.get request_url
       parse_content(JSON.parse(response)["results"])
     rescue => e
-      @response = "#{Constants::NewYorkTimes::GENERIC_ERROR}" 
+      @response = Constants::NewYorkTimes::GENERIC_ERROR
     end
   end
 
   def parse_content(posts)
-    return @response = "#{Constants::NO_POSTFOUND}" if !posts || posts.size < 1
+    return @response = Constants::NO_POSTFOUND if !posts || posts.size < 1
     response_list = []
     posts.each do |post|
       response_list.push("|New York Times #{post["section"]}| <#{post["url"]}|#{post["title"]}>")

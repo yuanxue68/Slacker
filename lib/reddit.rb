@@ -24,15 +24,17 @@ class Reddit
           }
         )
         parse_content (JSON.parse(response)["data"]["children"])
+      else 
+        @response = Constants::Reddit::TOKEN_ERROR
       end
     rescue => e
       p e.response
-      @response = "#{Constants::Reddit::GENERIC_ERROR}"
+      @response = Constants::Reddit::GENERIC_ERROR
     end
   end
 
   def parse_content(posts)
-    return  @response = "#{Constants::NO_POSTFOUND}" if !posts || posts.size < 1
+    return  @response = Constants::NO_POSTFOUND if !posts || posts.size < 1
     response_list = []
     posts.each do |post|
       response_list.push "|reddit #{post["data"]["subreddit"]}| <#{Constants::Reddit::BASE_URL}#{post["data"]["permalink"]}|#{post["data"]["title"]}>"
@@ -45,7 +47,7 @@ class Reddit
     begin
       response = RestClient::Request.execute(
         method: :post,
-        url: "https://www.reddit.com/api/v1/access_token",
+        url: Constants::Reddit::TOKEN_URL,
         user: @app_id,
         password: @app_secret,
         content_type: 'application/x-www-form-urlencoded',
@@ -58,7 +60,7 @@ class Reddit
       @token = JSON.parse(response)["access_token"]
     rescue => e
       p e.response
-      @response = "An error has occured whie getting reddit posts"
+      @response = Constants::Reddit::GENERIC_ERROR
     end
   end
 end

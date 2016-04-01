@@ -1,8 +1,10 @@
 module Constants
   module Reddit
+    TOKEN_URL = "https://www.reddit.com/api/v1/access_token"
     API_URL = "https://oauth.reddit.com/r/"
     BASE_URL = "https://reddit.com"
     GENERIC_ERROR = "An error has occured while getting reddit posts"
+    TOKEN_ERROR = "Error while getting reddit access token"
   end
 
   module StackOverflow

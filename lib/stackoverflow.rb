@@ -10,12 +10,12 @@ class StackOverflow
       response = RestClient.get request_url
       parse_content(JSON.parse(response)["items"])
     rescue
-      @response = "#{Constants::StackOverflow::GENERIC_ERROR}"
+      @response = Constants::StackOverflow::GENERIC_ERROR
     end
   end
 
   def parse_content(posts)
-    return @response = "#{Constants::NO_POSTFOUND}" if !posts || posts.size < 1
+    return @response = Constants::NO_POSTFOUND if !posts || posts.size < 1
     response_list = []
     posts.each do |post|
       response_list.push("|StackOverflow #{post["answer_count"]} Answers| <#{post["link"]}|#{post["title"]}>")
