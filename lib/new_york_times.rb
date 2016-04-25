@@ -6,13 +6,12 @@ class NewYorkTimes
 
   def fetch_content(section)
     return @response = Constants::NewYorkTimes::UNRECOGNIZED_SECTION unless Constants::NewYorkTimes::AVAILABLE_SECTIONS.include? section
-    begin
-      request_url = format(Constants::NewYorkTimes::API_URL, section, ENV['NEW_YORK_TIMES_KEY'])
-      response = RestClient.get request_url
-      parse_content(JSON.parse(response)["results"])
-    rescue => e
-      @response = Constants::NewYorkTimes::GENERIC_ERROR
-    end
+    request_url = format(Constants::NewYorkTimes::API_URL, section, ENV['NEW_YORK_TIMES_KEY'])
+    response = RestClient.get request_url
+    parse_content(JSON.parse(response)["results"])
+  rescue => e
+    p e.response
+    @response = Constants::NewYorkTimes::GENERIC_ERROR
   end
 
   def parse_content(posts)

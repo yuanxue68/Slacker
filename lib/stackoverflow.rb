@@ -5,13 +5,11 @@ class StackOverflow
   end
 
   def fetch_content(search_term)
-    begin
-      request_url = format(Constants::StackOverflow::API_URL, search_term)
-      response = RestClient.get request_url
-      parse_content(JSON.parse(response)["items"])
-    rescue
-      @response = Constants::StackOverflow::GENERIC_ERROR
-    end
+    request_url = format(Constants::StackOverflow::API_URL, search_term)
+    response = RestClient.get request_url
+    parse_content(JSON.parse(response)["items"])
+  rescue
+    @response = Constants::StackOverflow::GENERIC_ERROR
   end
 
   def parse_content(posts)

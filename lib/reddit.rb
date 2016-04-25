@@ -10,27 +10,25 @@ class Reddit
   end
 
   def fetch_content(sub_reddit, limit = 10)
-    begin
-      get_token
-      if @token
-        response = RestClient::Request.execute(
-          method: :get,
-          params: {
-            limit: limit
-          },
-          url: "#{Constants::Reddit::API_URL}#{sub_reddit}",
-          headers:{
-            Authorization: "Bearer #{@token}"
-          }
-        )
-        parse_content (JSON.parse(response)["data"]["children"])
-      else 
-        @response = Constants::Reddit::TOKEN_ERROR
-      end
-    rescue => e
-      p e.response
-      @response = Constants::Reddit::GENERIC_ERROR
+    get_token
+    if @token
+      response = RestClient::Request.execute(
+        method: :get,
+        params: {
+          limit: limit
+        },
+        url: "#{Constants::Reddit::API_URL}#{sub_reddit}",
+        headers:{
+          Authorization: "Bearer #{@token}"
+        }
+      )
+      parse_content (JSON.parse(response)["data"]["children"])
+    else 
+      @response = Constants::Reddit::TOKEN_ERROR
     end
+  rescue => e
+    p e.response
+    @response = Constants::Reddit::GENERIC_ERROR
   end
 
   def parse_content(posts)
@@ -44,23 +42,21 @@ class Reddit
 
   private
   def get_token
-    begin
-      response = RestClient::Request.execute(
-        method: :post,
-        url: Constants::Reddit::TOKEN_URL,
-        user: @app_id,
-        password: @app_secret,
-        content_type: 'application/x-www-form-urlencoded',
-        payload: {
-          grant_type: 'password',
-          username: @username,
-          password: @password
-        }
-      )
-      @token = JSON.parse(response)["access_token"]
-    rescue => e
-      p e.response
-      @response = Constants::Reddit::GENERIC_ERROR
-    end
+    response = RestClient::Request.execute(
+      method: :post,
+      url: Constants::Reddit::TOKEN_URL,
+      user: @app_id,
+      password: @app_secret,
+      content_type: 'application/x-www-form-urlencoded',
+      payload: {
+        grant_type: 'password',
+        username: @username,
+        password: @password
+      }
+    )
+    @token = JSON.parse(response)["access_token"]
+  rescue => e
+    p e.response
+    @response = Constants::Reddit::GENERIC_ERROR
   end
 end
