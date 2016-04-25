@@ -47,7 +47,6 @@ class Reddit
       url: Constants::Reddit::TOKEN_URL,
       user: @app_id,
       password: @app_secret,
-      content_type: 'application/x-www-form-urlencoded',
       payload: {
         grant_type: 'password',
         username: @username,
